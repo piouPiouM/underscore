@@ -2,6 +2,12 @@ $(document).ready(function() {
 
   module("Strings");
 
+  var testException = function(fn, arg) {
+    raises(function() {
+      return _[fn](arg);
+    }, TypeError, 'the given argument must be a string.');
+  };
+
   test("strings: downcase", function() {
     equals(_.downcase("hellO"), "hello");
     equals(_.downcase("hello"), "hello");
@@ -45,18 +51,13 @@ $(document).ready(function() {
   });
 
   test("strings: empty", function() {
-    var testException = function(arg) {
-      raises(function() {
-        return _.empty(arg);
-      }, TypeError, 'the given argument must be a string.');
-    };
     ok(_.empty(""));
     ok(!_.empty("not"));
     ok(!_.empty(" "));
     ok(!_.empty("    "));
-    testException(0);
-    testException(null);
-    testException(undefined);
+    testException('empty', 0);
+    testException('empty', null);
+    testException('empty', undefined);
   });
 
   test("strings: repeat", function () {
@@ -65,6 +66,15 @@ $(document).ready(function() {
     equals(_.repeat("", 5), "", "An empty string is not repeated");
     equals(_.repeat("x", -2), "", "Negative multiplier returns an empty String");
     equals(_.repeat("x", 2.14), "xx");
+  });
+
+  test("strings: reverse", function () {
+    equals(_.reverse("stressed"), "desserts", "Reverse string 'stressed'");
+    equals(_.reverse("madamImadam"), "madamImadam", "Reverse the palindrome 'madamImadam'");
+    equals(_.reverse(""), "", "Reverse an empty string");
+    testException('reverse', undefined);
+    testException('reverse', 123);
+    testException('reverse', null);
   });
 
 });

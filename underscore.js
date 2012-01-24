@@ -849,6 +849,13 @@
   // String Functions
   // ----------------
 
+  var testExpectedType = function(obj, type, msg) {
+    var fn = 'is' + _.capitalize(type);
+    if (_.has(_, fn) && !_[fn](obj)) {
+      throw new TypeError(msg);
+    }
+  };
+
   // Returns the given **string** converted to lower case according
   // to any locale-specific case mapping.
   _.downcase = function(string) {
@@ -896,15 +903,20 @@
 
   // Is the given **string** is empty?
   _.empty = function(string) {
-    if (!_.isString(string)) throw new TypeError('the given argument must be a string.');
-
-    return !(''+string).length;
+    testExpectedType(string, 'string', 'the given argument must be a string.');
+    return !string.length;
   };
 
   // Returns the given **string** repeated **multiplier** times.
   _.repeat = function(string, multiplier) {
     multiplier = 0|multiplier;
     return (multiplier <= 0 ? '' : Array(1 + multiplier).join(''+string));
+  };
+
+  // Returns the characters from the given **string** in reverse order.
+  _.reverse = function(string) {
+    testExpectedType(string, 'string', 'the given argument must be a string.');
+    return string.split('').reverse().join('');
   };
 
   // Utility Functions
