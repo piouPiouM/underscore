@@ -77,4 +77,32 @@ $(document).ready(function() {
     testException('reverse', null);
   });
 
+  test("strings: ljust", function() {
+    equals(_.ljust("hello", 4), "hello");
+    equals(_.ljust("hello", 5), "hello");
+    equals(_.ljust("hello", 20), "hello               ");
+    equals(_.ljust("hello", 20, "123"), "hello123123123123123");
+    equals(_.ljust("hello", -20), "hello");
+    equals(_.ljust("hello", -20, "123"), "hello");
+  });
+
+  test("strings: rjust", function() {
+    equals(_.rjust("hello", 4), "hello");
+    equals(_.rjust("hello", 5), "hello");
+    equals(_.rjust("hello", 20), "               hello");
+    equals(_.rjust("hello", 20, "123"), "123123123123123hello");
+    equals(_.rjust("hello", -20), "hello");
+    equals(_.rjust("hello", -20, "123"), "hello");
+  });
+
+  test("strings: center", function() {
+    equals(_.center("hello", 4), "hello");
+    equals(_.center("hello", 5), "hello");
+    equals(_.center("hello", 20), "       hello        ");
+    equals(_.center("hello", 11), "   hello   ");
+    equals(_.center("hello", 20, "123"), "1231231hello12312312");
+    equals(_.center("hello", -20), "hello");
+    equals(_.center("hello", -20, "123"), "hello");
+  });
+
 });

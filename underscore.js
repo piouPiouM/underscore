@@ -919,6 +919,32 @@
     return string.split('').reverse().join('');
   };
 
+  // Returns the given **string** of **length** integer left justified
+  // and padded with **pad**.
+  _.ljust = function(string, length, pad) {
+    string += '';
+    var len = parseInt(length, 10) - string.length;
+    return string + ((len < 0) ? '' : _.repeat(('' + (pad || ' ')), length).substr(0, len));
+  };
+
+  // Returns the given **string** of **length** integer right justified
+  // and padded with **pad**.
+  _.rjust = function(string, length, pad) {
+    string += '';
+    var len = parseInt(length, 10) - string.length;
+    return ((len < 0) ? '' : _.repeat(('' + (pad || ' ')), length).substr(0, len)) + string;
+  };
+
+  // Returns the given **string** of **length** integer centered
+  // and padded with **pad**.
+  _.center = function(string, length, pad) {
+    string += '';
+    var len = parseInt(length, 10) - string.length;
+    if (len < 0) return string;
+    pad = _.repeat(('' + (pad || ' ')), length);
+    return pad.substr(0, len >> 1) + string + pad.substr(0, Math.ceil(len / 2));
+  };
+
   // Utility Functions
   // -----------------
 
