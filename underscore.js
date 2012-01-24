@@ -21,7 +21,10 @@
   var breaker = {};
 
   // Save bytes in the minified (but not gzipped) version:
-  var ArrayProto = Array.prototype, ObjProto = Object.prototype, FuncProto = Function.prototype;
+  var ArrayProto  = Array.prototype,
+      ObjProto    = Object.prototype,
+      FuncProto   = Function.prototype,
+      StringProto = String.prototype;
 
   // Create quick reference variables for speed access to core prototypes.
   var slice            = ArrayProto.slice,
@@ -841,6 +844,54 @@
   // Has own property?
   _.has = function(obj, key) {
     return hasOwnProperty.call(obj, key);
+  };
+
+  // String Functions
+  // ----------------
+
+  // Returns the given **string** converted to lower case according
+  // to any locale-specific case mapping.
+  _.downcase = function(string) {
+    return StringProto.toLocaleLowerCase.call(''+string);
+  };
+
+  // Returns the given **string** converted to upper case according
+  // to any locale-specific case mapping.
+  _.upcase = function(string) {
+    return StringProto.toLocaleUpperCase.call(''+string);
+  };
+
+  // Is the given string is in uppercase?
+  _.isUpperCase = function(string) {
+    return string == _.upcase(string);
+  };
+
+  // Is the given string is in lowercase?
+  _.isLowerCase = function (string) {
+    return string == _.downcase(string);
+  };
+
+  // Returns the given **string** with the first character converted
+  // to upper case the remainder to lowercase.
+  _.capitalize = function(string) {
+    string += '';
+    return _.upcase(string[0]) + _.downcase(string.substr(1));
+  };
+
+  // Returns the given **string** with uppercase alphabetic characters
+  // converted to lowercase and lowercase characters converted to uppercase.
+  _.swapcase = function(string) {
+    return _.map((''+string).split(''), function(s) {
+      var fn;
+      if (_.isLowerCase(s)) {
+        fn = 'upcase';
+      } else if (_.isUpperCase(s)) {
+        fn = 'downcase';
+      } else {
+        return s;
+      }
+      return _[fn](s);
+    }).join('');
   };
 
   // Utility Functions
