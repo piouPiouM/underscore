@@ -901,6 +901,12 @@
     return !(''+string).length;
   };
 
+  // Returns the given **string** repeated **multiplier** times.
+  _.repeat = function(string, multiplier) {
+    multiplier = 0|multiplier;
+    return (multiplier <= 0 ? '' : Array(1 + multiplier).join(''+string));
+  };
+
   // Utility Functions
   // -----------------
 

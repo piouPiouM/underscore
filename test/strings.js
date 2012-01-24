@@ -59,4 +59,12 @@ $(document).ready(function() {
     testException(undefined);
   });
 
+  test("strings: repeat", function () {
+    equals(_.repeat("x", 5), "xxxxx", "Single char 'x' repeated 5 times");
+    equals(_.repeat("hello", 2), "hellohello", "A string 'hello' repeated 2 times");
+    equals(_.repeat("", 5), "", "An empty string is not repeated");
+    equals(_.repeat("x", -2), "", "Negative multiplier returns an empty String");
+    equals(_.repeat("x", 2.14), "xx");
+  });
+
 });
