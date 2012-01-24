@@ -894,6 +894,13 @@
     }).join('');
   };
 
+  // Is the given **string** is empty?
+  _.empty = function(string) {
+    if (!_.isString(string)) throw new TypeError('the given argument must be a string.');
+
+    return !(''+string).length;
+  };
+
   // Utility Functions
   // -----------------
 

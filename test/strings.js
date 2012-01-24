@@ -44,4 +44,19 @@ $(document).ready(function() {
     equals(_.swapcase("$^#^%$#!!"), "$^#^%$#!!");
   });
 
+  test("strings: empty", function() {
+    var testException = function(arg) {
+      raises(function() {
+        return _.empty(arg);
+      }, TypeError, 'the given argument must be a string.');
+    };
+    ok(_.empty(""));
+    ok(!_.empty("not"));
+    ok(!_.empty(" "));
+    ok(!_.empty("    "));
+    testException(0);
+    testException(null);
+    testException(undefined);
+  });
+
 });
