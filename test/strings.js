@@ -2,10 +2,10 @@ $(document).ready(function() {
 
   module("Strings");
 
-  var testException = function(fn, arg) {
+  var testException = function(fn, msg) {
     raises(function() {
-      return _[fn](arg);
-    }, TypeError, 'the given argument must be a string.');
+      return _[fn].apply(null, Array.prototype.slice.call(arguments, 1));
+    }, TypeError, msg);
   };
 
   test("strings: downcase", function() {
@@ -55,9 +55,9 @@ $(document).ready(function() {
     ok(!_.empty("not"));
     ok(!_.empty(" "));
     ok(!_.empty("    "));
-    testException('empty', 0);
-    testException('empty', null);
-    testException('empty', undefined);
+    testException('empty', "the given argument must be a string.", 0);
+    testException('empty', "the given argument must be a string.", null);
+    testException('empty', "the given argument must be a string.", undefined);
   });
 
   test("strings: repeat", function () {
@@ -72,9 +72,9 @@ $(document).ready(function() {
     equals(_.reverse("stressed"), "desserts", "Reverse string 'stressed'");
     equals(_.reverse("madamImadam"), "madamImadam", "Reverse the palindrome 'madamImadam'");
     equals(_.reverse(""), "", "Reverse an empty string");
-    testException('reverse', undefined);
-    testException('reverse', 123);
-    testException('reverse', null);
+    testException('reverse', "the given argument must be a string.", undefined);
+    testException('reverse', "the given argument must be a string.", 123);
+    testException('reverse', "the given argument must be a string.", null);
   });
 
   test("strings: ljust", function() {
