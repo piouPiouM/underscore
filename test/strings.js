@@ -125,4 +125,16 @@ $(document).ready(function() {
     equals(_.chop(_.chop("x")), "");
   });
 
+  test("strings: chomp", function() {
+    equals(_.chomp("hello"), "hello");
+    equals(_.chomp("hello\n"), "hello");
+    equals(_.chomp("hello\r\n"), "hello");
+    equals(_.chomp("hello\n\r"), "hello\n");
+    equals(_.chomp("hello\r"), "hello");
+    equals(_.chomp("hello \n there"), "hello \n there");
+    equals(_.chomp("hello!", "!"), "hello");
+    equals(_.chomp("hello", "llo"), "he");
+    equals(_.chomp("hello", "hel"), "hello");
+  });
+
 });

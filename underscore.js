@@ -963,6 +963,15 @@
     return string.substr(0, string.length - n);
   };
 
+  // Returns a string with the given record **separator** removed from the end
+  // of the given **string** (if present). If the separator was not given, then chomp also
+  // removes carriage return characters (that is it will remove `\n`, `\r`, and `\r\n`).
+  _.chomp = function(string, separator) {
+    testExpectedType(string, 'string', 'the given argument must be a string.');
+    var reg = RegExp('(' + (separator || "(\r\n?|\n)") + '$)', 'g');
+    return string.replace(reg, '');
+  };
+
   // Utility Functions
   // -----------------
 
