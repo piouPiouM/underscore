@@ -954,6 +954,15 @@
     return string.replace(reg, '$1');
   };
 
+  // Returns a string with the last character removed.
+  // If the given string ends with `\r\n`, both characters are removed.
+  // Applying chop to an empty string returns an empty string.
+  _.chop = function(string) {
+    testExpectedType(string, 'string', 'the given argument must be a string.');
+    var n = ("\r\n" === string.substr(string.length - 2)) ? 2 : 1;
+    return string.substr(0, string.length - n);
+  };
+
   // Utility Functions
   // -----------------
 

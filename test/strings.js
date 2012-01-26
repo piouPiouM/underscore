@@ -114,4 +114,15 @@ $(document).ready(function() {
     equals(_.squeeze("BxxxTyyyWzzzzz", "a-z"), "BxTyWz");
   });
 
+  test("strings: chop", function() {
+    equals(_.chop("hello"), "hell");
+    equals(_.chop("hello\r\n"), "hello");
+    equals(_.chop("hello\n\r"), "hello\n");
+    equals(_.chop("hello\n"), "hello");
+    equals(_.chop("\r\n"), "");
+    equals(_.chop(""), "");
+    equals(_.chop("x"), "");
+    equals(_.chop(_.chop("x")), "");
+  });
+
 });
