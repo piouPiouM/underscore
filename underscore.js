@@ -945,6 +945,15 @@
     return pad.substr(0, len >> 1) + string + pad.substr(0, Math.ceil(len / 2));
   };
 
+  // Returns a string where runs of the same character that occur in this set
+  // are replaced by a single character. If no **str** argument are given, all runs
+  // of identical characters are replaced by a single character.
+  _.squeeze = function(string, str) {
+    testExpectedType(string, 'string', 'the given argument must be a string.');
+    var reg = RegExp('(' + ((str && '[' + str + ']') || '.') + ')\\1+', 'g');
+    return string.replace(reg, '$1');
+  };
+
   // Utility Functions
   // -----------------
 

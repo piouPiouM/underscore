@@ -105,4 +105,13 @@ $(document).ready(function() {
     equals(_.center("hello", -20, "123"), "hello");
   });
 
+  test("strings: squeeze", function() {
+    equals(_.squeeze("yellow moon"), "yelow mon", "Replace identical characters by a single character in 'yellow moon'");
+    equals(_.squeeze("  now   is  the", " "), " now is the", "Replace spaces from by a single space in '  now   is  the'");
+    equals(_.squeeze("putters shoot balls", "m-z"), "puters shot balls", "Replace all characters from the set [m-z] by a single character in 'putters shoot balls'");
+    equals(_.squeeze("aaabbbbccc"), "abc");
+    equals(_.squeeze("aa   bb      cc", " "), "aa bb cc");
+    equals(_.squeeze("BxxxTyyyWzzzzz", "a-z"), "BxTyWz");
+  });
+
 });
