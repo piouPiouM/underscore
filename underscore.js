@@ -972,6 +972,43 @@
     return string.replace(reg, '');
   };
 
+  // Returns the index of the first occurrence of the given **substring**
+  // or pattern (RegExp) in **string**. Returns `-1` if not found.
+  // If the **offset** parameter is present, it specifies the position in the string
+  // to begin to search (start to 0).
+  //
+  //     _.index("hello", "e")           //=> 1
+  //     _.index("hello", "lo")          //=> 3
+  //     _.index("hello", /[aeiou]/, -3) //=> 4
+  _.index = function(string, substring, offset) {
+    offset = offset || 0;
+    testExpectedType(string,    'string', 'the given argument must be a string.');
+    testExpectedType(offset,    'number', 'the given offset must be a number.');
+
+    var
+      len  = string.length,
+      slen = substring.length,
+      match,
+      pos = -1;
+
+    if (offset < -len || len < slen) return -1;
+    if (0 === slen) return offset;
+    if (offset < 0) {
+      offset += len;
+    }
+
+    // The given substring is a string. So, we call the native method.
+    if (_.isString(substring)) return string.indexOf(substring, offset);
+
+    testExpectedType(substring, 'regex', 'the given substring argument must be of string or regex types.');
+    match = substring.exec(string.substr(offset));
+    if (match) {
+      pos = offset + match.index;
+    }
+
+    return pos;
+  };
+
   // Utility Functions
   // -----------------
 

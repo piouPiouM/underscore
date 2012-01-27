@@ -137,4 +137,39 @@ $(document).ready(function() {
     equals(_.chomp("hello", "hel"), "hello");
   });
 
+  test("strings: index", function() {
+    equals(_.index("hello", "h"), 0);
+    equals(_.index("hello", "ell"), 1);
+    equals(_.index("hello", ""), 0);
+
+    equals(_.index("hello", /ll./), 2);
+    equals(_.index("hello", /.?h/), 0);
+    equals(_.index("hello", /.+l/), 0);
+    equals(_.index("hello", /l(?!l)/), 3);
+    equals(_.index("hello", /l$/), -1);
+
+    equals(_.index("hello", "l", 3), 3);
+    equals(_.index("hello", "", 3), 3);
+    equals(_.index("hello", /l./, 3), 3);
+    equals(_.index("hello", /[aeiou]/, -3), 4);
+
+    equals(_.index("abcde", "c", 0), 2);
+    equals(_.index("abcde", "c", -1), -1);
+    equals(_.index("abcde", "c", -2), -1);
+    equals(_.index("abcde", "c", -3), 2);
+    equals(_.index("abcde", "c", -5), 2);
+    equals(_.index("abcde", "c", -6), -1);
+    equals(_.index("abcde", "c", -20), -1);
+
+    equals(_.index("hello", "z"), -1);
+    equals(_.index("hello", /z./), -1);
+    equals(_.index("hello", "z", 3),  -1);
+    equals(_.index("hello", /z./, 3), -1);
+    equals(_.index("hello", /.?z/, 3), -1);
+
+    testException("index", "'string' argument must be a string.", 123, "2");
+    testException("index", "'subtring' argument must be a string or a pattern.", "hello", 2);
+    testException("index", "'offset' argument must be a number.", "hello", "h", "z");
+  });
+
 });
