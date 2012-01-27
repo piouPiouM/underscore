@@ -859,6 +859,15 @@
     }
   };
 
+  // A shortcut used by `chars` and `bytes`.
+  // Save bytes in the minified version
+  var joinChunks = function(chunks, iterator) {
+    if (iterator && _.isFunction(iterator)) {
+      return _.map(chunks, iterator).join('');
+    }
+    return chunks;
+  }
+
   // Returns the given **string** converted to lower case according
   // to any locale-specific case mapping.
   _.downcase = function(string) {
@@ -1028,6 +1037,23 @@
   _.rstrip = function(string) {
     testExpectedType(string, 'string', 'the given argument must be a string.');
     return (!trimRight) ? string.replace(/\s+$/g, '') : trimRight.call(string);
+  };
+
+  // Passes each character of the **string** to the given **iterator**,
+  // or returns an iterable if no iterator is given.
+  // Aliased as `each_char`.
+  _.chars = _.each_char = function(string, iterator) {
+    return joinChunks((''+string).split(''), iterator || undefined);
+  }
+
+  // Passes each byte in **string** to the given **iterator**,
+  // or returns an iterable if no iterator is given.
+  // Aliased as `each_byte`.
+  _.bytes = _.each_byte = function(string, iterator) {
+    return joinChunks(
+      _.map((''+string).split(''), function(c) { return c.charCodeAt(); }),
+      iterator || undefined
+    );
   };
 
   // Utility Functions

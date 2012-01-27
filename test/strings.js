@@ -202,4 +202,18 @@ $(document).ready(function() {
     testException("rstrip", "the given argument must be a string.", []);
   });
 
+  test("string: chars", function(){
+    deepEqual(_.chars("hello"), "hello".split(""));
+    equals(_.chars("hello", function(c) { return c + "-"; }), "h-e-l-l-o-");
+    equals(_.chars("hello", _.upcase), "HELLO");
+    equals(_.each_char("hello", function(c) { return c + "-"; }), "h-e-l-l-o-");
+  });
+
+  test("string: bytes", function(){
+    deepEqual(_.bytes("hello"), [104, 101, 108, 108, 111]);
+    equals(_.bytes("hello", function(b) { return b + "-"; }), "104-101-108-108-111-");
+    equals(_.bytes("hello", function(b) { return String.fromCharCode(++b); }), "ifmmp");
+    equals(_.each_byte("hello", function(b) { return b + "-"; }), "104-101-108-108-111-");
+  });
+
 });
