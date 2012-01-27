@@ -172,4 +172,34 @@ $(document).ready(function() {
     testException("index", "'offset' argument must be a number.", "hello", "h", "z");
   });
 
+  test("strings: strip", function() {
+    equals(_.strip("      x        "), "x");
+    equals(_.strip(" \n\r\t     x  \t\r\n\n      "), "x");
+    equals(_.strip("\xa0"), "");
+    equals(_.strip("a\xa0"), "a");
+    equals(_.strip("w     x       y"), "w     x       y");
+    equals(_.strip(""), "");
+    testException("strip", "the given argument must be a string.", []);
+  });
+
+  test("strings: lstrip", function() {
+    equals(_.lstrip("      x        "), "x        ");
+    equals(_.lstrip(" \n\r\t     x  \t\r\n\n      "), "x  \t\r\n\n      ");
+    equals(_.lstrip("\xa0"), "");
+    equals(_.lstrip("\xa0a"), "a");
+    equals(_.lstrip("w     x       y"), "w     x       y");
+    equals(_.lstrip(""), "");
+    testException("lstrip", "the given argument must be a string.", []);
+  });
+
+  test("strings: rstrip", function() {
+    equals(_.rstrip("      x        "), "      x");
+    equals(_.rstrip(" \n\r\t     x  \t\r\n\n      "), " \n\r\t     x");
+    equals(_.rstrip("\xa0"), "");
+    equals(_.rstrip("a\xa0"), "a");
+    equals(_.rstrip("w     x       y"), "w     x       y");
+    equals(_.rstrip(""), "");
+    testException("rstrip", "the given argument must be a string.", []);
+  });
+
 });

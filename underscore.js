@@ -30,7 +30,9 @@
   var slice            = ArrayProto.slice,
       unshift          = ArrayProto.unshift,
       toString         = ObjProto.toString,
-      hasOwnProperty   = ObjProto.hasOwnProperty;
+      hasOwnProperty   = ObjProto.hasOwnProperty,
+      trimLeft         = StringProto.trimLeft,
+      trimRight        = StringProto.trimRight;
 
   // All **ECMAScript 5** native function implementations that we hope to use
   // are declared here.
@@ -46,7 +48,8 @@
     nativeLastIndexOf  = ArrayProto.lastIndexOf,
     nativeIsArray      = Array.isArray,
     nativeKeys         = Object.keys,
-    nativeBind         = FuncProto.bind;
+    nativeBind         = FuncProto.bind,
+    nativeTrim         = StringProto.trim;
 
   // Create a safe reference to the Underscore object for use below.
   var _ = function(obj) { return new wrapper(obj); };
@@ -1007,6 +1010,24 @@
     }
 
     return pos;
+  };
+
+  // Removes leading and trailing whitespace of the given string.
+  _.strip = function(string) {
+    testExpectedType(string, 'string', 'the given argument must be a string.');
+    return (!nativeTrim) ? string.replace(/^\s+|\s+$/g, '') : nativeTrim.call(string);
+  };
+
+  // Removes leading whitespace of the given string.
+  _.lstrip = function(string) {
+    testExpectedType(string, 'string', 'the given argument must be a string.');
+    return (!trimLeft) ? string.replace(/^\s+/g, '') : trimLeft.call(string);
+  };
+
+  // Removes trailing whitespace of the given string.
+  _.rstrip = function(string) {
+    testExpectedType(string, 'string', 'the given argument must be a string.');
+    return (!trimRight) ? string.replace(/\s+$/g, '') : trimRight.call(string);
   };
 
   // Utility Functions
