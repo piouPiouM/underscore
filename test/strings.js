@@ -3,8 +3,9 @@ $(document).ready(function() {
   module("Strings");
 
   var testException = function(fn, msg) {
+    var args = Array.prototype.slice.call(arguments, 2);
     raises(function() {
-      return _[fn].apply(null, Array.prototype.slice.call(arguments, 1));
+      return _[fn].apply(null, args);
     }, TypeError, msg);
   };
 
