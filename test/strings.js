@@ -217,4 +217,37 @@ $(document).ready(function() {
     equals(_.each_byte("hello", function(b) { return b + "-"; }), "104-101-108-108-111-");
   });
 
+  test("string: lines", function() {
+    var res  = [], i = 0;
+        push = function (x) { res.push(x); };
+
+    res = _.lines("hello\nworld");
+    deepEqual(res, ["hello\n", "world"]);
+
+    res = [];
+    res = _.lines("hello\n\n\nworld");
+    deepEqual(res, ["hello\n", "\n", "\n", "world"]);
+
+    res = [];
+    res = _.lines("hello\n\n\nworld", "");
+    deepEqual(res, ["hello\n\n\n", "world"]);
+
+    res = [];
+    res = _.lines("hello!world", "!");
+    deepEqual(res, ["hello!", "world"]);
+
+    res=[]
+    _.chain("hello!world").lines("!").each(push);
+    equals("hello!", res[0]);
+    equals("world",  res[1]);
+
+    var s = null;
+    _.chain("hello\nworld").each_line(null, function(s2) {
+      s = s2;
+    });
+    equals("hello\nworld", s);
+
+    testException('lines', 'the given separator must not be a RegExp.', "hello\nworld", /l/);
+    testException('lines', 'the given separator must not be a RegExp.', "hello\nworld", 2);
+  });
 });

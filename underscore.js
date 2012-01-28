@@ -1056,6 +1056,52 @@
     );
   };
 
+  // Splits the given **string** using the supplied **separator** (`\n` by default),
+  // passing each substring in turn to the supplied **iterator**.
+  // If a zero-length record separator is supplied, the string is split into paragraphs
+  // delimited by multiple successive newlines.
+  // Aliased as `each_line`.  
+  // A port of the native Ruby `lines()` function. See
+  // [the Ruby documentation](http://ruby-doc.org/core-1.9.3/String.html#method-i-lines)
+  _.lines = _.each_line = function(string, separator, iterator) {
+    var chuncks,
+        defaultSeparator = "\n",
+        oldSeparator     = _.isUndefined(separator) ? defaultSeparator : separator,
+        nArgs            = arguments.length;
+    string += '';
+
+    if (2 === nArgs && _.isFunction(separator)) {
+      iterator     = separator;
+      separator    = defaultSeparator;
+      oldSeparator = defaultSeparator;
+    } else if (3 === nArgs && (_.isNull(separator) || _.isUndefined(separator))) {
+      return (_.isFunction(iterator)) ? _.map([string], iterator) : string;
+    }
+
+    separator = separator || defaultSeparator;
+    if (_.isString(separator)) {
+      separator = RegExp('(?=' + (separator || defaultSeparator) + ')')
+    } else {
+      throw new TypeError('separator must be a string.');
+    }
+    chuncks = _.map(_.reverse(string).split(separator), _.reverse).reverse();
+
+    if (oldSeparator == defaultSeparator) return chuncks;
+
+    var res = [], prev = '', m = 0;
+    each(chuncks, function(chunk, i) {
+      if (chunk == prev) {
+        res[m] += chunk;
+        prev    = chunk;
+      } else {
+        prev = chunk.slice(-1);
+        res.push(chunk);
+        m = i;
+      }
+    });
+    return res;
+  };
+
   // Utility Functions
   // -----------------
 
