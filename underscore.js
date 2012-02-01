@@ -1084,6 +1084,26 @@
     } else {
       throw new TypeError('separator must be a string.');
     }
+
+    // The native JavaScript command `split()` removes the given separator.
+    // If we want to keep it (like in the Ruby version), we _should_ use a lookbehind
+    // assertion but, because JavaScript does not support them, we **must** use a
+    // lookahead assertion in a reversed string.
+    // 
+    //     >>> "foo#bar#baz".split("#")
+    //     ["foo", "bar", "baz"] // the separator is removed.
+    //     >>> "foo#bar#baz".split(/(?=#)/)
+    //     ["foo", "#bar", "#baz"] // with a lookahead assertion, each chunk begins
+    //                             // with the separator instead of to end with it.
+    // 
+    // Finally:
+    // 
+    //     >>> _.reverse("foo#bar#baz").split(/(?=#)/)
+    //     ["zab", "#rab", "#oof"]
+    //     >>> _.map(_.reverse("foo#bar#baz").split(/(?=#)/), _.reverse)
+    //     ["baz", "bar#", "foo#"]
+    //     >>> _.map(_.reverse("foo#bar#baz").split(/(?=#)/), _.reverse).reverse()
+    //     ["foo#", "bar#", "baz"] // Yeah!
     chuncks = _.map(_.reverse(string).split(separator), _.reverse).reverse();
 
     if (oldSeparator == defaultSeparator) return chuncks;
