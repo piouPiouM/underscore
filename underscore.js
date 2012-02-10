@@ -957,12 +957,30 @@
     return pad.substr(0, len >> 1) + string + pad.substr(0, Math.ceil(len / 2));
   };
 
-  // Returns a string where runs of the same character that occur in this set
-  // are replaced by a single character. If no **str** argument are given, all runs
-  // of identical characters are replaced by a single character.
-  _.squeeze = function(string, str) {
+  // Builds a set of characters from the other parameter(s) using the procedure
+  // described for `_.count`. Returns a new **string** where runs of the same character
+  // that occur in this set are replaced by a single character.
+  // If no extra arguments are given, all runs of identical characters
+  // are replaced by a single character.  
+  // A port of the native Ruby `String#squeeze` method. See
+  // [the Ruby documentation](http://ruby-doc.org/core-1.9.3/String.html#method-i-squeeze)
+  _.squeeze = function(string) {
     testExpectedType(string, 'string', 'the given argument must be a string.');
-    var reg = RegExp('(' + ((str && '[' + str + ']') || '.') + ')\\1+', 'g');
+    var table = str_setup_table.apply(null, slice.call(arguments, 1)),
+        kl    = table.keep.length,
+        nl    = table.negate.length,
+        str   = '',
+        reg;
+    if (kl) {
+      str = table.keep.join('');
+      if (nl) {
+        reg = new RegExp('[' + table.negate.join('') + ']', 'g');
+        str = str.replace(reg, '');
+      }
+    } else if (nl) {
+      str = '^' + table.negate.join('');
+    }
+    reg = new RegExp('(' + ((str && '[' + str + ']') || '.') + ')\\1+', 'g');
     return string.replace(reg, '$1');
   };
 

@@ -113,6 +113,10 @@ $(document).ready(function() {
     equals(_.squeeze("aaabbbbccc"), "abc");
     equals(_.squeeze("aa   bb      cc", " "), "aa bb cc");
     equals(_.squeeze("BxxxTyyyWzzzzz", "a-z"), "BxTyWz");
+    equals(_.squeeze("yellow moon", "^o"), "yelow moon");
+    equals(_.squeeze("yellow moon", "lo", "^l"), "yellow mon");
+    equals(_.squeeze("abcdef aa bb cc dd ee ff", "a-ef", "^bf"), "abcdef a bb c d e ff");
+    equals(_.squeeze("abcdef aa bb cc dd ee ff", "ab{1}e"), "abcdef a b cc dd e ff");
   });
 
   test("strings: chop", function() {
