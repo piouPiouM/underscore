@@ -1227,6 +1227,38 @@
     return count;
   };
 
+  // Returns a copy of **string** with all characters in the intersection of
+  // its arguments deleted. Uses the same rules for building the set
+  // of characters as `_.count`.  
+  // A port of the native Ruby `String#delete` method. See
+  // [the Ruby documentation](http://ruby-doc.org/core-1.9.3/String.html#method-i-delete)
+  _.drop = function(string) {
+    testExpectedType(string, 'string', 'the given argument must be a string.');
+    var i     = 0,
+        n     = string.length,
+        table = str_setup_table.apply(null, slice.call(arguments, 1)),
+        kl    = table.keep.length,
+        str   = '',
+        res   = '';
+    if (!kl && !table.negate.length) return string;
+    if (kl) {
+      str = table.keep.join('');
+      for (; n > i; ++i) {
+        if (!~str.indexOf(string[i])) {
+          res += string.substr(i, 1);
+        }
+      }
+    } else {
+      str = table.negate.join('');
+      for (; n > i; ++i) {
+        if (!!~str.indexOf(string[i])) {
+          res += string.substr(i, 1);
+        }
+      }
+    }
+    return res;
+  };
+
   // Utility Functions
   // -----------------
 

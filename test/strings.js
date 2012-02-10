@@ -270,4 +270,24 @@ $(document).ready(function() {
 
     testException("count", "'string' argument must be a string.", 123);
   });
+
+  test("string: drop", function() {
+    equals(_.drop("hello world", "e", "o"), "hello world");
+    equals(_.drop("hello world", "e", "o", "z"), "hello world");
+    equals(_.drop("hello world", "d-i"), "llo worl");
+    equals(_.drop("hello world", "z", "d-i"), "hello world");
+    equals(_.drop("hello world", "e", "d-i"), "hllo world");
+    equals(_.drop("hello world", "o", "a-f"), "hello world");
+    equals(_.drop("hello world", "d-i", "z"), "hello world");
+    equals(_.drop("hello world", "d-i", "e"), "hllo world");
+    equals(_.drop("hello world", "d-i", "o"), "hello world");
+    equals(_.drop("hello world", "^l", "d-lw"), "llo orl");
+    equals(_.drop("hello world", "d-lw", "^l"), "llo orl");
+    equals(_.drop("hello world", "^o"), "oo");
+    equals(_.drop("hello world", "^o", "^e"), "eoo");
+    equals(_.drop("hello world", "^o", "^l"), "llool");
+    equals(_.drop("abcdef", "ab-fm-p", "d-fgp", "^f", "^g"), "abcf");
+
+    testException("drop", "'string' argument must be a string.", 123);
+  });
 });
