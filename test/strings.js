@@ -250,4 +250,24 @@ $(document).ready(function() {
     testException('lines', 'the given separator must not be a RegExp.', "hello\nworld", /l/);
     testException('lines', 'the given separator must not be a RegExp.', "hello\nworld", 2);
   });
+
+  test("string: count", function() {
+    equals(_.count("hello world", "e", "o"), 0);
+    equals(_.count("hello world", "e", "o", "z"), 0);
+    equals(_.count("hello world", "d-i"), 3);
+    equals(_.count("hello world", "z", "d-i"), 0);
+    equals(_.count("hello world", "e", "d-i"), 1);
+    equals(_.count("hello world", "o", "a-f"), 0);
+    equals(_.count("hello world", "d-i", "z"), 0);
+    equals(_.count("hello world", "d-i", "e"), 1);
+    equals(_.count("hello world", "d-i", "o"), 0);
+    equals(_.count("hello world", "^l", "d-lw"), 4);
+    equals(_.count("hello world", "d-lw", "^l"), 4);
+    equals(_.count("hello world", "^o"), 9);
+    equals(_.count("hello world", "^o", "^e"), 8);
+    equals(_.count("hello world", "^o", "^l"), 6);
+    equals(_.count("abcdef", "ab-fm-p", "d-fgp", "^f", "^g"), 2);
+
+    testException("count", "'string' argument must be a string.", 123);
+  });
 });

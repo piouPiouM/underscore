@@ -1122,6 +1122,111 @@
     return res;
   };
 
+  var cb_str_setup_range = function() {
+    var i = 0,
+        n = arguments.length,
+        s = 0,
+        prev = '',
+        cur  = '',
+        res  = [];
+    for (; n > i; i++) {
+      cur = arguments[i];
+      if (!('-' === cur && !!prev)) {
+        res.push(cur);
+        prev = cur;
+      } else if (arguments[i - 1] && arguments[1 + i]){
+        for (s = res.pop().charCodeAt(0), e = arguments[1 + i].charCodeAt(0); e >= s; ++s) {
+          res.push(String.fromCharCode(s));
+        }
+        prev = arguments[++i];
+      } else {
+        res.prev(cur);
+        prev = cur;
+      }
+    }
+
+    return res;
+  };
+
+  var cb_str_filter_range = function(range) {
+    var i = 0,
+        j = 0,
+        m = range.length,
+        n = this.length;
+    for (; n > i; ++i) {
+      for (; m > j; ++j) {
+        if (!~range[j].indexOf(this[i])) {
+          this.splice(i, 1);
+          --n;
+          --i;
+        }
+      }
+    }
+  };
+
+  var str_setup_table = function() {
+    var args   = slice.call(arguments),
+        nagrs  = args.length,
+        i   = 0,
+        nl  = 0,
+        x   = -1,
+        range  = [],
+        negate = [];
+
+    for (; nagrs > i; ++i) {
+      if ('^' === args[i][0]) {
+        negate = negate.concat(cb_str_setup_range.apply(null, args[i].substr(1).split('')));
+      } else {
+        range.push(cb_str_setup_range.apply(null, args[i].split('')));
+      }
+    }
+
+    range.sort(function(a, b) { return a.length - b.length; });
+    var keep = range.shift() || [];
+    keep   = _.uniq(keep, true);
+    negate = _.uniq(negate, true);
+
+    cb_str_filter_range.call(keep, range);
+
+    if (keep.length && (nl = negate.length)) {
+      while (nl--) {
+        x = keep.indexOf(negate[nl]);
+        if (!!~x) {
+          keep.splice(x, 1);
+        }
+      }
+    }
+    return {'keep':  keep, 'negate': negate};
+  };
+
+  // Each other parameter than **string** defines a set of characters to count.
+  // The intersection of these sets defines the characters to count in **string**.
+  // Any other parameter that starts with a caret (`^`) is negated.
+  // The sequence `c1–c2` means all characters between `c1` and `c2`.  
+  // A port of the native Ruby `String#count` method. See
+  // [the Ruby documentation](http://ruby-doc.org/core-1.9.3/String.html#method-i-count)
+  _.count = function(string) {
+    testExpectedType(string, 'string', 'the given argument must be a string.');
+    var count = 0,
+        n     = string.length,
+        table = str_setup_table.apply(null, slice.call(arguments, 1)),
+        kl    = table.keep.length,
+        str   = '';
+    if (!kl && !table.negate.length) return 0;
+    if (kl) {
+      str = table.keep.join('');
+      while (n--) {
+        if (!!~str.indexOf(string[n])) ++count;
+      }
+    } else {
+      str = table.negate.join('');
+      while (n--) {
+        if (!~str.indexOf(string[n])) ++count;
+      }
+    }
+    return count;
+  };
+
   // Utility Functions
   // -----------------
 
