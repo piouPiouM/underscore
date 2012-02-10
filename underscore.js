@@ -1061,7 +1061,7 @@
   // If a zero-length record separator is supplied, the string is split into paragraphs
   // delimited by multiple successive newlines.
   // Aliased as `each_line`.  
-  // A port of the native Ruby `lines()` function. See
+  // A port of the native Ruby `String#lines` method. See
   // [the Ruby documentation](http://ruby-doc.org/core-1.9.3/String.html#method-i-lines)
   _.lines = _.each_line = function(string, separator, iterator) {
     var chuncks,
