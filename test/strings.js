@@ -236,7 +236,7 @@ $(document).ready(function() {
     res = _.lines("hello!world", "!");
     deepEqual(res, ["hello!", "world"]);
 
-    res=[]
+    res=[];
     _.chain("hello!world").lines("!").each(push);
     equals("hello!", res[0]);
     equals("world",  res[1]);

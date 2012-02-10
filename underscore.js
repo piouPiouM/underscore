@@ -866,7 +866,7 @@
       return _.map(chunks, iterator).join('');
     }
     return chunks;
-  }
+  };
 
   // Returns the given **string** converted to lower case according
   // to any locale-specific case mapping.
@@ -1044,7 +1044,7 @@
   // Aliased as `each_char`.
   _.chars = _.each_char = function(string, iterator) {
     return joinChunks((''+string).split(''), iterator || undefined);
-  }
+  };
 
   // Passes each byte in **string** to the given **iterator**,
   // or returns an iterable if no iterator is given.
@@ -1080,7 +1080,7 @@
 
     separator = separator || defaultSeparator;
     if (_.isString(separator)) {
-      separator = RegExp('(?=' + (separator || defaultSeparator) + ')')
+      separator = RegExp('(?=' + (separator || defaultSeparator) + ')');
     } else {
       throw new TypeError('separator must be a string.');
     }
